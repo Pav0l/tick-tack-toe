@@ -1,21 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Square({ squareClick, id, isXnext}) {
+export default function Square({ squareClick, id, squareArr}) {
 
   const clickHandler = (event) => {
-    squareClick(id);
-    if (isXnext) {
-      event.target.innerText = 'X';
-    } else {
-      event.target.innerText = 'O';
-    }
+    squareClick(id, event);
   };
 
   return (
     <StyledSquare
       onClick={clickHandler}
-    >{id}</StyledSquare>
+    >{squareArr[id]}</StyledSquare>
   );
 }
 

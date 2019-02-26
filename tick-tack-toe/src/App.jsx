@@ -11,31 +11,45 @@ export default function App() {
     // console.log(squareArr);
   }, [squareArr]);
 
-  const squareClick = (id) => {
+  const squareClick = (id, event) => {
     const newSquareArr = squareArr.slice();
     newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
     setIsXNext(!isXnext);
+
+    if (isXnext) {
+      event.target.textContent = 'X';
+    } else {
+      event.target.textContent = 'O';
+    }
+    
     setTimeout(computerTurn, 1000);
   }
 
+  const resetGame = () => {
+    setSquareArr([null, null, null, null, null, null, null, null, null]);
+    setIsXNext(true);
+  }
+
   const computerTurn = () => {
-    // console.log('O is choosing next');
+    
   };
 
+  const winningLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
   const declareWinner = (squareValue) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
+
+    for (let i = 0; i < winningLines.length; i++) {
+      const [a, b, c] = winningLines[i];
       if (squareValue[a] && squareValue[a] === squareValue[b] && squareValue[a] === squareValue[c]) {
         return squareValue[a];
       }
@@ -49,12 +63,13 @@ export default function App() {
         {`Next turn: ${isXnext===true? 'X' : 'O'}`}
       </StatusWrapper>
       <GameWrapper>
-        <Game squareClick={squareClick} isXnext={isXnext} />
+        <Game squareClick={squareClick} squareArr={squareArr} />
       </GameWrapper>
 
       <StatusWrapper>
         {declareWinner(squareArr) ? `${declareWinner(squareArr)} has won!` : `Keep playing!`}
       </StatusWrapper>
+      <ResetBtn onClick={resetGame}>Reset Game</ResetBtn>
     </AppWrapper>
   );
 
@@ -63,16 +78,25 @@ export default function App() {
 const AppWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
 `;
 
 const GameWrapper = styled.div`
   margin: 1rem auto;
-  border: 1px solid yellow;
 `;
 
 const StatusWrapper = styled.div`
   margin: 1rem 2rem;
   font-size: 2rem;
   text-align: center;
+`;
+
+const ResetBtn = styled.button`
+  background-color: #F26600;
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  margin: 0 auto;
+  width: 150px;
 `;
