@@ -2,23 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import Square from './Square';
 
-export default function Game() {
+export default function Game({ squareClick }) {
   return(
     <div>
       <Row>
-        <Square />
-        <Square />
-        <Square />
+        <Square id={0} squareClick={squareClick} />
+        <Square id={1} squareClick={squareClick} />
+        <Square id={2} squareClick={squareClick} />
       </Row>
       <Row>
-        <Square />
-        <Square />
-        <Square />
+        <Square id={3} squareClick={squareClick} />
+        <Square id={4} squareClick={squareClick} />
+        <Square id={5} squareClick={squareClick} />
       </Row>
       <Row>
-        <Square />
-        <Square />
-        <Square />
+        <Square id={6} squareClick={squareClick} />
+        <Square id={7} squareClick={squareClick} />
+        <Square id={8} squareClick={squareClick} />
       </Row>
     </div>
   );

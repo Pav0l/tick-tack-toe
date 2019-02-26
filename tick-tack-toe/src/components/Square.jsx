@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Square() {
+export default function Square({ squareClick, id}) {
   return (
-    <StyledSquare>X O</StyledSquare>
+    <StyledSquare
+      onClick={() => squareClick(id)}
+    >{id}</StyledSquare>
   );
 }
 
