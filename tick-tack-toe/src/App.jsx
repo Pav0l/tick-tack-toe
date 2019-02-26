@@ -7,7 +7,7 @@ export default function App() {
   const [isXnext, setIsXNext] = useState(true);
 
   useEffect(() => {
-    console.log(squareArr);
+    
   }, [squareArr]);
 
   const squareClick = (id) => {
@@ -15,12 +15,32 @@ export default function App() {
     newSquareArr[id] = 'X';
     setSquareArr(newSquareArr);
     setIsXNext(false);
-    computerTurn();
+    setTimeout(computerTurn, 1000);
   }
 
   const computerTurn = () => {
-    
+    console.log('O is choosing next');
   };
+
+  const declareWinner = (squareValue) => {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squareValue[a] && squareValue[a] === squareValue[b] && squareValue[a] === squareValue[c]) {
+        return squareValue[a];
+      }
+    }
+    return null;
+  }
 
   return (
     <AppWrapper>
@@ -32,7 +52,7 @@ export default function App() {
       </GameWrapper>
 
       <StatusWrapper>
-          You won!
+        {declareWinner(squareArr) ? `${declareWinner(squareArr)} has won!` : `Keep playing!`}
       </StatusWrapper>
     </AppWrapper>
   );
