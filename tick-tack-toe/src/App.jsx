@@ -7,19 +7,20 @@ export default function App() {
   const [isXnext, setIsXNext] = useState(true);
 
   useEffect(() => {
-    
+    // console.log(declareWinner(squareArr));
+    // console.log(squareArr);
   }, [squareArr]);
 
   const squareClick = (id) => {
     const newSquareArr = squareArr.slice();
-    newSquareArr[id] = 'X';
+    newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
-    setIsXNext(false);
+    setIsXNext(!isXnext);
     setTimeout(computerTurn, 1000);
   }
 
   const computerTurn = () => {
-    console.log('O is choosing next');
+    // console.log('O is choosing next');
   };
 
   const declareWinner = (squareValue) => {
@@ -48,7 +49,7 @@ export default function App() {
         {`Next turn: ${isXnext===true? 'X' : 'O'}`}
       </StatusWrapper>
       <GameWrapper>
-        <Game squareClick={squareClick} />
+        <Game squareClick={squareClick} isXnext={isXnext} />
       </GameWrapper>
 
       <StatusWrapper>

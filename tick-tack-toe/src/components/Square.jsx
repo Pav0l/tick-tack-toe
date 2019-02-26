@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Square({ squareClick, id}) {
+export default function Square({ squareClick, id, isXnext}) {
 
   const clickHandler = (event) => {
     squareClick(id);
-    event.target.innerText = 'X';
+    if (isXnext) {
+      event.target.innerText = 'X';
+    } else {
+      event.target.innerText = 'O';
+    }
   };
 
   return (
