@@ -22,4 +22,5 @@ const StyledSquare = styled.button`
   background-color: #116DB6;
   color: #F26600;
   font-size: 5rem;
+  vertical-align: top;
 `;
