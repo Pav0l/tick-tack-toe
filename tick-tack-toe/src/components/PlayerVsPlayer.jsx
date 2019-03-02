@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Game from './Game';
+import { Link } from 'react-router-dom';
+import Board from './Board';
 import styled from 'styled-components';
 
 export default function PvP() {
@@ -49,7 +50,7 @@ export default function PvP() {
         {`Next turn: ${isXnext===true? 'X' : 'O'}`}
       </StatusWrapper>
       <GameWrapper>
-        <Game squareClick={squareClick} squareArr={squareArr} />
+        <Board squareClick={squareClick} squareArr={squareArr} />
       </GameWrapper>
 
       <StatusWrapper>
@@ -59,7 +60,10 @@ export default function PvP() {
           : `It's a DRAW!`
         }
       </StatusWrapper>
-      <ResetBtn onClick={resetGame}>Reset Game</ResetBtn>
+      <BtnWrap>
+        <ResetBtn onClick={resetGame}>Reset Game</ResetBtn>
+        <Link to="/"><ResetBtn>Back</ResetBtn></Link>
+      </BtnWrap>
     </AppWrapper>
   );
 }
@@ -67,6 +71,7 @@ export default function PvP() {
 const AppWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 `;
 
 const GameWrapper = styled.div`
@@ -79,6 +84,11 @@ const StatusWrapper = styled.div`
   text-align: center;
 `;
 
+const BtnWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
 const ResetBtn = styled.button`
   background-color: #F26600;
   color: #FFFFFF;
@@ -86,6 +96,6 @@ const ResetBtn = styled.button`
   padding: 1rem 1.5rem;
   border: none;
   border-radius: 4px;
-  margin: 0 auto;
+  margin: 1rem;
   width: 150px;
 `;

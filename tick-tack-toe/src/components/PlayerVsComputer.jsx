@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Game from './Game';
+import Board from './Board';
 import styled from 'styled-components';
 
 export default function PvC() {
@@ -115,7 +115,7 @@ export default function PvC() {
         {`Next turn: ${isXnext===true? 'X' : 'O'}`}
       </StatusWrapper>
       <GameWrapper>
-        <Game squareClick={squareClick} squareArr={squareArr} />
+        <Board squareClick={squareClick} squareArr={squareArr} />
       </GameWrapper>
 
       <StatusWrapper>

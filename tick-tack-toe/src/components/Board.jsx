@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Square from './Square';
 
-export default function Game({ squareClick, squareArr }) {
+export default function Board({ squareClick, squareArr }) {
   return(
     <div>
       <Row>
