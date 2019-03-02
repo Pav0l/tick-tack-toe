@@ -16,7 +16,7 @@ export default function PvP() {
 
   const squareClick = (id) => {
     const newSquareArr = squareArr.slice();
-    newSquareArr[id] = isXnext ? 1 : 10;
+    newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
     setIsXNext(!isXnext);
   }
