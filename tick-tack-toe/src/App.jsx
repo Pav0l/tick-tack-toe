@@ -10,6 +10,7 @@ export default function App() {
   const BtnLinks = () => {
     return (
       <BtnWrapper>
+        <h1>Welcome to TickTackToe</h1>
         <h1>Select game mode:</h1>
         <div>
           <Link to="/pvp"><Button textValue='Player vs. Player' /></Link>
