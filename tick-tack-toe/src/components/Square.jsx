@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 export default function Square({ squareClick, id, squareArr}) {
+  // const [disableBtn, setDisable] = useState(false);
 
   const clickHandler = (event) => {
-    squareClick(id, event);
+    event.preventDefault();
+    // onClick DISABLE the BUTTON so IT CAN NOT BE REWRITEN
+    squareClick(id);
+    // setDisable(true);
   };
 
   return (
     <StyledSquare
       onClick={clickHandler}
-    >{squareArr[id]}</StyledSquare>
+      // disabled={disableBtn}
+    >
+    {
+      squareArr[id] === 0
+      ? ''
+      : squareArr[id] === 1
+        ? 'X'
+        : 'O'
+    }
+    </StyledSquare>
   );
 }
 
