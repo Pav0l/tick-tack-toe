@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Board from './Board';
-import styled from 'styled-components';
+import GameDom from './GameDom';
 
 export default function PvP() {
   const [squareArr, setSquareArr] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -45,57 +43,13 @@ export default function PvP() {
   }
 
   return (
-    <AppWrapper>
-      <StatusWrapper>
-        {`Next turn: ${isXnext===true? 'X' : 'O'}`}
-      </StatusWrapper>
-      <GameWrapper>
-        <Board squareClick={squareClick} squareArr={squareArr} />
-      </GameWrapper>
-
-      <StatusWrapper>
-        {
-          emptySquares(squareArr).length !== 0
-          ? declareWinner(squareArr) ? `${declareWinner(squareArr)} has won!` : `Keep playing!`
-          : `It's a DRAW!`
-        }
-      </StatusWrapper>
-      <BtnWrap>
-        <ResetBtn onClick={resetGame}>Reset Game</ResetBtn>
-        <Link to="/"><ResetBtn>Back</ResetBtn></Link>
-      </BtnWrap>
-    </AppWrapper>
+    <GameDom
+      isXnext={isXnext}
+      squareClick={squareClick}
+      squareArr={squareArr}
+      resetGame={resetGame}
+      emptySquares={emptySquares}
+      declareWinner={declareWinner}
+    />
   );
 }
-
-const AppWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-`;
-
-const GameWrapper = styled.div`
-  margin: 1rem auto;
-`;
-
-const StatusWrapper = styled.div`
-  margin: 1rem 2rem;
-  font-size: 2rem;
-  text-align: center;
-`;
-
-const BtnWrap = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
-
-const ResetBtn = styled.button`
-  background-color: #F26600;
-  color: #FFFFFF;
-  font-weight: 600;
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  margin: 1rem;
-  width: 150px;
-`;

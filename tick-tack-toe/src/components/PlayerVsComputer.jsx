@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Board from './Board';
-import styled from 'styled-components';
+import GameDom from './GameDom';
 
 export default function PvC() {
   const [squareArr, setSquareArr] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -97,6 +96,7 @@ export default function PvC() {
     return moves[bestMove]
   }
  
+  // FUNCTIONS FROM PvP MODE
   const resetGame = () => {
     setSquareArr([0, 0, 0, 0, 0, 0, 0, 0, 0]);
     setIsXNext(true);
@@ -107,47 +107,38 @@ export default function PvC() {
     newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
     setIsXNext(!isXnext);
+    computerMinmaxLogic(squareArr, computer);
+  }
+
+  const winningLines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const declareWinner = (boardArr) => {
+    for (let i = 0; i < winningLines.length; i++) {
+      const [a, b, c] = winningLines[i];
+      if (boardArr[a] && boardArr[a] === boardArr[b] && boardArr[a] === boardArr[c]) {
+        return boardArr[a] === 1 ? 'X': 'O';
+      }
+    }
+    return null;
   }
 
   return (
-    <AppWrapper>
-      <StatusWrapper>
-        {`Next turn: ${isXnext===true? 'X' : 'O'}`}
-      </StatusWrapper>
-      <GameWrapper>
-        <Board squareClick={squareClick} squareArr={squareArr} />
-      </GameWrapper>
-
-      <StatusWrapper>
-        {/* {declareWinner(squareArr) ? `${declareWinner(squareArr)} has won!` : `Keep playing!`} */}
-      </StatusWrapper>
-      <ResetBtn onClick={resetGame}>Reset Game</ResetBtn>
-    </AppWrapper>
+    <GameDom
+      isXnext={isXnext}
+      squareClick={squareClick}
+      squareArr={squareArr}
+      resetGame={resetGame}
+      emptySquares={emptySquares}
+      declareWinner={declareWinner}
+    />
   );
 }
-
-const AppWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const GameWrapper = styled.div`
-  margin: 1rem auto;
-`;
-
-const StatusWrapper = styled.div`
-  margin: 1rem 2rem;
-  font-size: 2rem;
-  text-align: center;
-`;
-
-const ResetBtn = styled.button`
-  background-color: #F26600;
-  color: #FFFFFF;
-  font-weight: 600;
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  margin: 0 auto;
-  width: 150px;
-`;

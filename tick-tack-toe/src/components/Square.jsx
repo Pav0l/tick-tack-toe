@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 export default function Square({ squareClick, id, squareArr}) {
-  // const [disableBtn, setDisable] = useState(false);
 
   const clickHandler = (event) => {
     event.preventDefault();
-    // onClick DISABLE the BUTTON so IT CAN NOT BE REWRITEN
     squareClick(id);
-    // setDisable(true);
   };
 
   return (
     <StyledSquare
       onClick={clickHandler}
-      // disabled={disableBtn}
     >
     {
       squareArr[id] === 0
@@ -25,6 +22,12 @@ export default function Square({ squareClick, id, squareArr}) {
     }
     </StyledSquare>
   );
+}
+
+Square.propTypes = {
+  squareArr: PropTypes.array.isRequired,
+  squareClick: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 }
 
 const StyledSquare = styled.button`

@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import PvP from './components/PlayerVsPlayer';
 import PvC from './components/PlayerVsComputer';
+import Button from './components/Button';
 import styled from 'styled-components';
 
 export default function App() {
@@ -11,8 +12,8 @@ export default function App() {
       <BtnWrapper>
         <h1>Select game mode:</h1>
         <div>
-          <Link to="/pvp"><ChoiceBtn>Player vs. Player</ChoiceBtn></Link>
-          <Link to="/pvc"><ChoiceBtn>Player vs. Computer</ChoiceBtn></Link>
+          <Link to="/pvp"><Button textValue='Player vs. Player' /></Link>
+          <Link to="/pvc"><Button textValue='Player vs. Computer' /></Link>
         </div>
       </BtnWrapper>
     );
@@ -64,15 +65,4 @@ const BtnWrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   text-align: center;
-`;
-
-const ChoiceBtn = styled.button`
-  background-color: #F26600;
-  color: #FFFFFF;
-  font-weight: 600;
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  margin: 2rem;
-  width: 150px;
 `;
