@@ -65,6 +65,7 @@ export default function PvC() {
       executeEndGameCondition(loseCondition);
 
     } else {
+      // if there is no WIN/LOSE condition, select a random empty square
       const emptyArrIndexes = [];
       const newSquareArr = squareArr.slice();
       for (let i = 0; i < newSquareArr.length; i++) {
