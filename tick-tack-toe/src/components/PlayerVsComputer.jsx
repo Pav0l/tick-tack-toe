@@ -62,9 +62,15 @@ export default function PvC() {
       executeEndGameCondition(loseCondition);
 
     } else {
-      const emptyArr = squareArr.indexOf(0);
+      const emptyArrIndexes = [];
       const newSquareArr = squareArr.slice();
-      newSquareArr[emptyArr] = 'O';
+      for (let i = 0; i < newSquareArr.length; i++) {
+        if (newSquareArr[i] === 0) {
+          emptyArrIndexes.push(i);
+        }        
+      }
+      const randEmptyIdx = Math.floor(Math.random() * emptyArrIndexes.length);
+      newSquareArr[randEmptyIdx] = 'O';
       setSquareArr(newSquareArr);
       setIsXNext(!isXnext);
     }
