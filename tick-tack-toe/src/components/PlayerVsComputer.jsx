@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GameDom from './GameDom';
 
 export default function PvC() {
   const [squareArr, setSquareArr] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [isXnext, setIsXNext] = useState(true);
+
+  useEffect(() => {
+    // run computer turn on its turn and if there are some empty squares
+    if (isXnext === false && emptySquares(squareArr).length !==0) {
+      setTimeout(computerTurn, 1000);
+    }
+  }, [isXnext]);
 
   const human = 'X';
   const computer = 'O';
@@ -13,90 +20,65 @@ export default function PvC() {
     return arrOfSquares.filter(sq => sq === 0);
   }
 
-  // determine if a player won the game
-  const didSomeoneWin = (arrOfSquares, player) => {
-    if (
-      (arrOfSquares[0] === player && arrOfSquares[1] === player && arrOfSquares[2] === player) ||
-      (arrOfSquares[3] === player && arrOfSquares[4] === player && arrOfSquares[5] === player) ||
-      (arrOfSquares[6] === player && arrOfSquares[7] === player && arrOfSquares[8] === player) ||
-      (arrOfSquares[0] === player && arrOfSquares[3] === player && arrOfSquares[6] === player) ||
-      (arrOfSquares[1] === player && arrOfSquares[4] === player && arrOfSquares[7] === player) ||
-      (arrOfSquares[2] === player && arrOfSquares[5] === player && arrOfSquares[8] === player) ||
-      (arrOfSquares[0] === player && arrOfSquares[4] === player && arrOfSquares[8] === player) ||
-      (arrOfSquares[2] === player && arrOfSquares[4] === player && arrOfSquares[6] === player)
-    ) {
-      return true;
+  // check if there is a WIN/LOSE condition (two squares has the same symbol in row/col/diag)
+  const isThereEndGameCondition = (arrOfSquares, player) => {
+    const endGameConditions = [];
+    for (let i = 0; i < winningLines.length; i++) {
+      const [a, b, c] = winningLines[i];
+      if (
+        // two squares are equal and thrid one must be empty
+        (arrOfSquares[a] === player && arrOfSquares[b] === player && arrOfSquares[c] === 0) ||
+        (arrOfSquares[a] === player && arrOfSquares[c] === player && arrOfSquares[b] === 0) ||
+        (arrOfSquares[b] === player && arrOfSquares[c] === player && arrOfSquares[a] === 0)
+      ) {
+        endGameConditions.push({
+          line: i,
+          result: [arrOfSquares[a], arrOfSquares[b], arrOfSquares[c]]
+        })
+      }
+    }
+    return endGameConditions;
+  }
+
+  const executeEndGameCondition = (endCondition) => {
+    const newSquareArr = squareArr.slice();
+    // get line of winning/losing array
+    const endLine = endCondition[0].line;
+    // get ID inside winning line which is empty
+    const idInEndLine = endCondition[0].result.indexOf(0);
+    // get new ID where 'O' will be placed
+    const idInNewArr = winningLines[endLine][idInEndLine];
+
+    newSquareArr[idInNewArr] = 'O';
+    setSquareArr(newSquareArr);
+    setIsXNext(!isXnext);
+  }
+
+  const computerTurn = () => {
+    const winCondition = isThereEndGameCondition(squareArr, computer);
+    const loseCondition = isThereEndGameCondition(squareArr, human);
+
+    if (winCondition.length !== 0) {
+      executeEndGameCondition(winCondition);
+
+    } else if (loseCondition.length !== 0) {
+      executeEndGameCondition(loseCondition);
+
     } else {
-      return false;
+      const emptyArrIndexes = [];
+      const newSquareArr = squareArr.slice();
+      for (let i = 0; i < newSquareArr.length; i++) {
+        if (newSquareArr[i] === 0) {
+          emptyArrIndexes.push(i);
+        }        
+      }
+      const randEmptyIdx = emptyArrIndexes[Math.floor(Math.random() * emptyArrIndexes.length)];
+      newSquareArr[randEmptyIdx] = 'O';
+      setSquareArr(newSquareArr);
+      setIsXNext(!isXnext);
     }
   }
 
-  const computerMinmaxLogic = (newArrofSq, player) => {
-    const availSquares = emptySquares(newArrofSq);
-
-    if (didSomeoneWin(newArrofSq, human)) {
-      return {score: -10};
-    } else if (didSomeoneWin(newArrofSq, computer)) {
-      return {score: 10};
-    } else if (availSquares.length === 0) {
-      return {score: 0};
-    }
-
-    const moves = [];
-
-    // loop through empty squares
-    for (let i = 0; i < availSquares.length; i++) {
-      
-      // for every empty square create an object
-      const move = {};
-      // and save the index 
-      move.index = newArrofSq[availSquares[i]];
-
-      // asign the empty square the player mark
-      newArrofSq[availSquares[i]] = player;
-
-
-      if (player === computer){
-        // recursion - run this function again as human and save score
-        const result = computerMinmaxLogic(newArrofSq, human);
-        move.score = result.score;
-      } else {
-        const result = computerMinmaxLogic(newArrofSq, computer);
-        move.score = result.score;
-      }
-  
-      // reset the square to empty space
-      newArrofSq[availSquares[i]] = move.index;
-  
-      // push the object to the array
-      moves.push(move);
-    }
-
-    let bestMove;
-    // on computer turn calculate the move with highest score
-    if (player === computer) {
-      let bestScore = -10000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score > bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }        
-      }
-    } else {
-      // on human turn calculate the move with lowest score
-      let bestScore = 10000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score < bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }        
-      }
-    }
-
-    return moves[bestMove]
-  }
- 
-  // FUNCTIONS FROM PvP MODE
   const resetGame = () => {
     setSquareArr([0, 0, 0, 0, 0, 0, 0, 0, 0]);
     setIsXNext(true);
@@ -107,7 +89,6 @@ export default function PvC() {
     newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
     setIsXNext(!isXnext);
-    computerMinmaxLogic(squareArr, computer);
   }
 
   const winningLines = [
@@ -125,7 +106,7 @@ export default function PvC() {
     for (let i = 0; i < winningLines.length; i++) {
       const [a, b, c] = winningLines[i];
       if (boardArr[a] && boardArr[a] === boardArr[b] && boardArr[a] === boardArr[c]) {
-        return boardArr[a] === 1 ? 'X': 'O';
+        return boardArr[a] === 'X' ? 'X': 'O';
       }
     }
     return null;

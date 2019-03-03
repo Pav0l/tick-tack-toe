@@ -26,8 +26,10 @@ export default function GameDom({
 
       <StatusWrapper>
         {
-          emptySquares(squareArr).length !== 0
-          ? declareWinner(squareArr) ? `${declareWinner(squareArr)} has won!` : `Keep playing!`
+          declareWinner(squareArr)
+          ? `${declareWinner(squareArr)} has won!`
+          : emptySquares(squareArr).length !== 0
+          ? `Keep playing!`
           : `It's a DRAW!`
         }
       </StatusWrapper>

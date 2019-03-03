@@ -16,7 +16,7 @@ export default function PvP() {
 
   const squareClick = (id) => {
     const newSquareArr = squareArr.slice();
-    newSquareArr[id] = isXnext ? 1 : 10;
+    newSquareArr[id] = isXnext ? 'X' : 'O';
     setSquareArr(newSquareArr);
     setIsXNext(!isXnext);
   }
@@ -36,7 +36,7 @@ export default function PvP() {
     for (let i = 0; i < winningLines.length; i++) {
       const [a, b, c] = winningLines[i];
       if (boardArr[a] && boardArr[a] === boardArr[b] && boardArr[a] === boardArr[c]) {
-        return boardArr[a] === 1 ? 'X': 'O';
+        return boardArr[a] === 'X' ? 'X': 'O';
       }
     }
     return null;

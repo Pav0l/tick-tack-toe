@@ -16,7 +16,7 @@ export default function Square({ squareClick, id, squareArr}) {
     {
       squareArr[id] === 0
       ? ''
-      : squareArr[id] === 1
+      : squareArr[id] === 'X'
         ? 'X'
         : 'O'
     }
