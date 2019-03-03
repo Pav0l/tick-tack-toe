@@ -7,7 +7,10 @@ export default function PvC() {
 
   useEffect(() => {
     // run computer turn on its turn and if there are some empty squares
-    if (isXnext === false && emptySquares(squareArr).length !==0) {
+    if (isXnext === false && 
+      emptySquares(squareArr).length !==0 &&
+      declareWinner(squareArr) === null
+      ) {
       setTimeout(computerTurn, 1000);
     }
   }, [isXnext]);
@@ -73,7 +76,9 @@ export default function PvC() {
           emptyArrIndexes.push(i);
         }        
       }
-      const randEmptyIdx = emptyArrIndexes[Math.floor(Math.random() * emptyArrIndexes.length)];
+      const randEmptyIdx = emptyArrIndexes.length === 8 && newSquareArr[4] === 0
+        ? 4
+        : emptyArrIndexes[Math.floor(Math.random() * emptyArrIndexes.length)];
       newSquareArr[randEmptyIdx] = 'O';
       setSquareArr(newSquareArr);
       setIsXNext(!isXnext);
