@@ -21,7 +21,11 @@ export default function GameDom({
       </StatusWrapper>
 
       <GameWrapper>
-        <Board squareClick={squareClick} squareArr={squareArr} />
+        <Board
+          squareClick={squareClick}
+          squareArr={squareArr}
+          emptySquares={emptySquares}
+          />
       </GameWrapper>
 
       <StatusWrapper>

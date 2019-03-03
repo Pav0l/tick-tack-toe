@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Square from './Square';
 
-export default function Board({ squareClick, squareArr }) {
+export default function Board({ squareClick, squareArr, emptySquares }) {
   return(
     <StyledBoard>
 
@@ -14,6 +14,7 @@ export default function Board({ squareClick, squareArr }) {
             id={idx}
             squareClick={squareClick}
             squareArr={squareArr}
+            emptySquares={emptySquares}
           />
         ))
       }

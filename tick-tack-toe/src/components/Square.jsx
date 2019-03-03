@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-export default function Square({ squareClick, id, squareArr}) {
+export default function Square({ squareClick, id, squareArr, emptySquares }) {
+  const [disableBtn, setDisable] = useState(false); 
+
+  useEffect(() => {
+    if (emptySquares(squareArr).length === 9) {
+      setDisable(false);
+    }
+  }, [squareArr])
 
   const clickHandler = (event) => {
     event.preventDefault();
     squareClick(id);
+    setDisable(true);
   };
 
   return (
     <StyledSquare
       onClick={clickHandler}
+      disabled={disableBtn}
     >
     {
       squareArr[id] === 0
