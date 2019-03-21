@@ -1,6 +1,8 @@
 # tick-tack-toe
 Tick-tack-toe game in React JS.
 
+https://pavol-tick-tack-toe.herokuapp.com/
+
 There are two game modes to choose from:
 - player vs player
 - player vs computer
